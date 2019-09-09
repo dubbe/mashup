@@ -1,11 +1,8 @@
-using System;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using Mashup.DTO;
 using Mashup.Serializers;
-using Newtonsoft.Json;
+
 
 namespace Mashup.Clients
 {
@@ -17,7 +14,13 @@ namespace Mashup.Clients
 
         public async Task<CoverartArchive> GetImage(string id) {
             HttpRequestMessage request = CreateRequest(id);
-            return await SendAsync(request);
+            try{
+                return await SendAsync(request);
+            } catch (HttpRequestException) {
+
+                // Could not find coverart, return empty-coverart
+                return new CoverartArchive();
+            }
         }
         
         

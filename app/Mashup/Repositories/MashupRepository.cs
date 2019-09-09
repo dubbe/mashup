@@ -2,7 +2,6 @@ using System.Net.Http;
 using Mashup.Clients;
 using Mashup.DTO;
 using Mashup.Factories;
-using Mashup.Serializers;
 
 namespace Mashup.Repositories
 {

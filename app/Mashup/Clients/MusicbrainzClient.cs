@@ -1,10 +1,7 @@
-using System;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Mashup.DTO;
 using Mashup.Serializers;
-using Newtonsoft.Json;
 
 namespace Mashup.Clients
 {
@@ -14,7 +11,7 @@ namespace Mashup.Clients
         {
         }
 
-        public async Task<Musicbrainz> GetArtist(string MBID) {
+        public async Task<Musicbrainz> Get(string MBID) {
             HttpRequestMessage request = CreateRequest(MBID);
             return await SendAsync(request);
         }

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Mashup.DTO;
 using Mashup.Factories;
 using Mashup.Repositories;
-using Mashup.Serializers;
 using Moq;
 using Moq.Protected;
 using Xunit;
@@ -50,7 +49,7 @@ namespace Mashup.Tests.Clients
 
 
 
-            Musicbrainz artist =  await mashupRepository.Musicbrainz.GetArtist("5b11f4ce-a62d-471e-81fc-a69a8278c7da");
+            Musicbrainz artist =  await mashupRepository.Musicbrainz.Get("5b11f4ce-a62d-471e-81fc-a69a8278c7da");
             Assert.Equal("Q11649", artist.WikidataId);
 
             

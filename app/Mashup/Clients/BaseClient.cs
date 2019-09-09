@@ -28,10 +28,10 @@ namespace Mashup.Clients
             }
 
             HttpResponseMessage result = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-            
-            if(!result.IsSuccessStatusCode) {
-                return (T)Activator.CreateInstance(typeof(T));
-            }
+
+            result.EnsureSuccessStatusCode();
+
+                
             
             using (var streamReader = new StreamReader(await result.Content.ReadAsStreamAsync()))
             using (var jsonTextReader = new JsonTextReader(streamReader))
