@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Mashup.Clients;
 using Mashup.DTO;
 using Mashup.Factories;
-using Mashup.Repositories;
 using Moq;
 using Moq.Protected;
 using Xunit;
@@ -46,9 +46,8 @@ namespace Mashup.Tests.Clients
 
             SerializerFactory serializerFactory = new SerializerFactory();
 
-            MashupRepository mashupRepository = new MashupRepository(httpClient, serializerFactory);
-
-            Wikidata wikidata =  await mashupRepository.Wikidata.GetTitle("Q11649");
+            WikidataClient wikidataClient = new WikidataClient(httpClient, serializerFactory);
+            Wikidata wikidata =  await wikidataClient.GetTitle("Q11649");
             Assert.Equal("Nirvana (band)", wikidata.Title);
         }
     }

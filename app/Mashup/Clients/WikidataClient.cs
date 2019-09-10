@@ -1,16 +1,13 @@
-using System;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Mashup.DTO;
-using Mashup.Serializers;
-using Newtonsoft.Json;
+using Mashup.Factories;
 
 namespace Mashup.Clients
 {
-    public class WikidataClient : BaseClient<Wikidata>
+    public class WikidataClient : BaseClient<Wikidata>, IWikidataClient
     {
-        public WikidataClient(HttpClient httpClient, ISerializer<Wikidata> deserializer) : base(httpClient, deserializer)
+        public WikidataClient(HttpClient httpClient, ISerializerFactory serializerFactory) : base(httpClient, serializerFactory)
         {
         }
 

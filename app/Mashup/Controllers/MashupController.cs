@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Mashup.ViewModels;
-using Mashup.Factories;
-using Mashup.Repositories;
 using Mashup.DTO;
 using System.Linq;
+using Mashup.Clients;
 
 namespace Mashup.Controllers
 {
@@ -14,12 +13,15 @@ namespace Mashup.Controllers
     [ApiController]
     public class MashupController : ControllerBase
     {
-        private IMashupRepository _repository;
+        private IMusicbrainzClient _musicbrainz;
+        private IWikipediaClient _wikipedia;
+        private ICoverartArchiveClient _coverartArchive;
 
-        public MashupController(IMashupRepository repository)
+        public MashupController(IMusicbrainzClient musicbrainz, IWikipediaClient wikipedia, ICoverartArchiveClient coverartArchive)
         {
-            //serializerFactory = new SerializerFactory();
-            _repository = repository;
+            _musicbrainz = musicbrainz;
+            _wikipedia = wikipedia;
+            _coverartArchive = coverartArchive;
         }
 
         // GET api/mashup/:mbid
@@ -29,26 +31,33 @@ namespace Mashup.Controllers
         {
             try
             {
-                ArtistViewModel artistViewModel = new ArtistViewModel();
-                artistViewModel.Albums = new List<AlbumViewModel>();
-
                 // Get from musicbrainz first
-                Musicbrainz musicbrainz = await _repository.Musicbrainz.Get(mbid);
+                Musicbrainz musicbrainz = await _musicbrainz.GetAsync(mbid);
 
                 if (musicbrainz.MBID == null)
                 {
                     return new NotFoundResult();
                 }
 
-                var wikipediaTask = getDescription(musicbrainz);
-                var coverartTask = getCoverarts(musicbrainz);
+                var wikipediaTask = _wikipedia.GetAsync(musicbrainz);
+                var coverartTask = _coverartArchive.GetAsync(musicbrainz);
 
                 await Task.WhenAll(wikipediaTask, coverartTask);
 
-                var wikipedia = await wikipediaTask;
-                var coverarts = await coverartTask;
+                return buildAlbumViewModel(musicbrainz, await wikipediaTask, await coverartTask);
+            }
+            catch (Exception)
+            {
+                // TODO better error handling
+                return new NotFoundResult();
+            }
+        }
 
-                artistViewModel.MBID = musicbrainz.MBID;
+        private ArtistViewModel buildAlbumViewModel(Musicbrainz musicbrainz, Wikipedia wikipedia, IList<CoverartArchive> coverarts) {
+            ArtistViewModel artistViewModel = new ArtistViewModel();
+            artistViewModel.Albums = new List<AlbumViewModel>();
+
+            artistViewModel.MBID = musicbrainz.MBID;
                 artistViewModel.Description = wikipedia.Description;
 
                 foreach(var album in musicbrainz.Albums) {
@@ -60,50 +69,11 @@ namespace Mashup.Controllers
                 }
 
                 return artistViewModel;
-            }
-            catch (Exception)
-            {
-                // TODO better error handling
-                return new NotFoundResult();
-            }
         }
 
-        private async Task<Wikipedia> getDescription(Musicbrainz musicbrainz)
-        {
-            string title = musicbrainz.WikipediaTitle;
-            if (String.IsNullOrEmpty(title) && musicbrainz.WikidataId != null)
-            {
-                Wikidata wikidata = await _repository.Wikidata.GetTitle(musicbrainz.WikidataId);
-                if (wikidata != null)
-                {
-                    title = wikidata.Title;
-                }
-            }
+        
 
-            if (!String.IsNullOrEmpty(title))
-            {
-                return await _repository.Wikipedia.GetDescription(title);
-            } else {
-                throw new Exception();
-            }
-        }
-
-        private async Task<List<CoverartArchive>> getCoverarts(Musicbrainz musicbrainz)
-        {
-            var tasks = new List<Task<CoverartArchive>>();
-
-            foreach (MusicbrainzAlbum musicbrainzAlbum in musicbrainz.Albums)
-            {
-                tasks.Add(Task.Run(() => getCoverart(musicbrainzAlbum)));
-            }
-
-            return (await Task.WhenAll(tasks)).ToList();
-        }
-
-        private async Task<CoverartArchive> getCoverart(MusicbrainzAlbum musicbrainzAlbum)
-        {
-            return await _repository.CoverartArchive.GetImage(musicbrainzAlbum.Id);
-        }
+        
 
     }
 }

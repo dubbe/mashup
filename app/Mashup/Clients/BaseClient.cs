@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Mashup.Factories;
 using Mashup.Serializers;
 using Newtonsoft.Json;
 
@@ -13,16 +14,16 @@ namespace Mashup.Clients
 
         private readonly HttpClient _httpClient;
         private readonly ISerializer<T> _deserilzer;
-        public BaseClient(HttpClient httpClient, ISerializer<T> deserializer) {
+        public BaseClient(HttpClient httpClient, ISerializerFactory serializerFactory) {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _deserilzer = deserializer ?? throw new ArgumentNullException(nameof(deserializer));
+            _deserilzer = serializerFactory.Create<T>() ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         protected async Task<T> SendAsync(HttpRequestMessage request) {
  
             // TODO looking up proxy servers?
             string requestUri = request.RequestUri.ToString();
-            
+
             request.Headers.Add("User-Agent", "mashup/0.0.1 (thomas.dahlberg@cygni.se)");
             if (request.Content == null)
             {

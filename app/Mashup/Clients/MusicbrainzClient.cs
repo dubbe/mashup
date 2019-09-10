@@ -1,17 +1,17 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Mashup.DTO;
-using Mashup.Serializers;
+using Mashup.Factories;
 
 namespace Mashup.Clients
 {
-    public class MusicbrainzClient : BaseClient<Musicbrainz>
+    public class MusicbrainzClient : BaseClient<Musicbrainz>, IMusicbrainzClient
     {
-        public MusicbrainzClient(HttpClient httpClient, ISerializer<Musicbrainz> deserializer) : base(httpClient, deserializer)
+        public MusicbrainzClient(HttpClient httpClient, ISerializerFactory serializerFactory) : base(httpClient, serializerFactory)
         {
         }
 
-        public async Task<Musicbrainz> Get(string MBID) {
+        public async Task<Musicbrainz> GetAsync(string MBID) {
             HttpRequestMessage request = CreateRequest(MBID);
             return await SendAsync(request);
         }

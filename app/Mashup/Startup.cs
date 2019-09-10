@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
+using Mashup.Clients;
 using Mashup.Factories;
-using Mashup.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +26,13 @@ namespace Mashup
             services.AddHttpClient();
             services.AddSingleton(s => s.GetRequiredService<IHttpClientFactory>().CreateClient());
             
-            services.AddScoped<IMashupRepository, MashupRepository>();
+            //services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<ISerializerFactory, SerializerFactory>();
+
+            services.AddScoped<IMusicbrainzClient, MusicbrainzClient>();
+            services.AddScoped<IWikidataClient, WikidataClient>();
+            services.AddScoped<IWikipediaClient, WikipediaClient>();
+            services.AddScoped<ICoverartArchiveClient, CoverartArchiveClient>();
 
         }
 

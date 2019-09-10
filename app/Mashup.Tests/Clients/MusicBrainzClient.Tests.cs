@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Mashup.Clients;
 using Mashup.DTO;
 using Mashup.Factories;
-using Mashup.Repositories;
 using Moq;
 using Moq.Protected;
 using Xunit;
@@ -45,11 +45,8 @@ namespace Mashup.Tests.Clients
 
             SerializerFactory serializerFactory = new SerializerFactory();
 
-            MashupRepository mashupRepository = new MashupRepository(httpClient, serializerFactory);
-
-
-
-            Musicbrainz artist =  await mashupRepository.Musicbrainz.Get("5b11f4ce-a62d-471e-81fc-a69a8278c7da");
+            MusicbrainzClient musicbrainz = new MusicbrainzClient(httpClient, serializerFactory);
+            Musicbrainz artist =  await musicbrainz.GetAsync("5b11f4ce-a62d-471e-81fc-a69a8278c7da");
             Assert.Equal("Q11649", artist.WikidataId);
 
             
