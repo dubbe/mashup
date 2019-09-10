@@ -34,5 +34,5 @@ steps:
 
 - task: reportgenerator@4
   inputs:
-    reports: '$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobuertura.xml'
+    reports: '$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml'
     targetdir: '$(Build.SourcesDirectory)\coveragereport'
