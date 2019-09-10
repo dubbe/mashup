@@ -1,5 +1,6 @@
 # Starter pipeline
 
+
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -30,3 +31,8 @@ steps:
     command: 'test'
     projects: '**/Mashup.Tests/*.csproj'
     arguments: '--configuration $(BuildConfiguration)  /p:CollectCoverage=true  /p:CoverletOutputFormat=cobertura   /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
+
+- task: reportgenerator@4
+  inputs:
+    reports: '$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobuertura.xml'
+    targetdir: '$(Build.SourcesDirectory)\coveragereport'
