@@ -42,7 +42,7 @@ namespace Mashup
             {
                 app.UseDeveloperExceptionPage();
             }
-
+ 
             app.UseMvc();
             
         }
