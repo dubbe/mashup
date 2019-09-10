@@ -1,4 +1,5 @@
 # Starter pipeline
+
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -16,14 +17,6 @@ steps:
     packageType: sdk
     version: 2.2.203
     installationPath: $(Agent.ToolsDirectory)/dotnet
-    
-- task: NuGetCommand@2
-  displayName: Nuget restore
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
-
 
 - task: DotNetCoreCLI@2
   displayName: Build
@@ -31,3 +24,13 @@ steps:
     command: build
     projects: '**/Mashup.csproj'
     arguments: '--configuration Release' # Update this to match your need
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\bin\$(BuildConfiguration)\**\*test*.dll
+      !**\obj\**
+      !**\xunit.runner.visualstudio.testadapter.dll
+      !**\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+    searchFolder: '$(System.DefaultWorkingDirectory)'
