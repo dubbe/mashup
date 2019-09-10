@@ -9,9 +9,6 @@ namespace Mashup.DTO
             return _description;
         }}
 
-        public Wikipedia() {
-
-        }
         public Wikipedia(string description) {
             _description = description;
         }

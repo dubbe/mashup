@@ -21,9 +21,6 @@ namespace Mashup.DTO
             }
         }
 
-        public MusicbrainzAlbum() {
-            
-        }
 
         public MusicbrainzAlbum(string id, string title) {
             _id = id;

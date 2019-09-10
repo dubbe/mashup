@@ -43,9 +43,6 @@ namespace Mashup.DTO
             }
         }
 
-        public Musicbrainz() {
-            
-        }
         public Musicbrainz(string mbid, string wikidataId, string wikipediaTitle, IList<MusicbrainzAlbum> albums)
         {
             _mbid = mbid;

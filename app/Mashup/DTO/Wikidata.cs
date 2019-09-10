@@ -9,9 +9,6 @@ namespace Mashup.DTO
             return _title;
         }}
 
-        public Wikidata() {
-            
-        }
         public Wikidata(string title) {
             _title = title;
         }
