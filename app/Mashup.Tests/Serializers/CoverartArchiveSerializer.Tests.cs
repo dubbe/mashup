@@ -19,9 +19,10 @@ namespace Mashup.Tests.Serializers
             JsonTextReader reader = new JsonTextReader(new StringReader(jsonString));
 
             CoverartArchiveSerializer coverartArchiveSerializer = new CoverartArchiveSerializer();
-            CoverartArchive wikipedia = coverartArchiveSerializer.Deserialize(reader);
+            CoverartArchive coverart = coverartArchiveSerializer.Deserialize(reader, "http://coverartarchive.org/release-group/1b022e01-4da6-387b-8658-8678046e4cef");
 
-            Assert.Equal("http://coverartarchive.org/release/a146429a-cedc-3ab0-9e41-1aaf5f6cdc2d/3012495605.jpg", wikipedia.Image);
+            Assert.Equal("1b022e01-4da6-387b-8658-8678046e4cef", coverart.Id);
+            Assert.Equal("http://coverartarchive.org/release/a146429a-cedc-3ab0-9e41-1aaf5f6cdc2d/3012495605.jpg", coverart.Image);
  
         }
 
@@ -30,9 +31,9 @@ namespace Mashup.Tests.Serializers
             JsonTextReader reader = new JsonTextReader(new StringReader(""));
 
             CoverartArchiveSerializer coverartArchiveSerializer = new CoverartArchiveSerializer();
-            CoverartArchive wikipedia = coverartArchiveSerializer.Deserialize(reader);
+            CoverartArchive coverart = coverartArchiveSerializer.Deserialize(reader, "http://coverartarchive.org/release-group/1b022e01-4da6-387b-8658-8678046e4cef");
 
-            Assert.Empty(wikipedia.Image);
+            Assert.Empty(coverart.Image);
         }
 
         [Fact]
@@ -42,9 +43,9 @@ namespace Mashup.Tests.Serializers
             JsonTextReader reader = new JsonTextReader(new StringReader(jsonStringMultipleImages));
 
             CoverartArchiveSerializer coverartArchiveSerializer = new CoverartArchiveSerializer();
-            CoverartArchive wikipedia = coverartArchiveSerializer.Deserialize(reader);
+            CoverartArchive coverart = coverartArchiveSerializer.Deserialize(reader, "http://coverartarchive.org/release-group/1b022e01-4da6-387b-8658-8678046e4cef");
 
-            Assert.Equal("http://coverartarchive.org/release/7b43c443-d8c1-4122-a248-6f87984ab30b/15443439796.jpg", wikipedia.Image);
+            Assert.Equal("http://coverartarchive.org/release/7b43c443-d8c1-4122-a248-6f87984ab30b/15443439796.jpg", coverart.Image);
         }
     }
 }

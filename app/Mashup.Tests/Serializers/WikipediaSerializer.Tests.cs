@@ -19,7 +19,7 @@ namespace Mashup.Tests.Serializers
             JsonTextReader reader = new JsonTextReader(new StringReader(jsonString));
 
             WikipediaSerializer wikipediaSerializer = new WikipediaSerializer();
-            Wikipedia wikipedia = wikipediaSerializer.Deserialize(reader);
+            Wikipedia wikipedia = wikipediaSerializer.Deserialize(reader, "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro=true&redirects=true&titles=Nirvana_(band)");
 
             // TODO expand this test
             Assert.NotNull(wikipedia.Description);

@@ -7,7 +7,7 @@ namespace Mashup.Serializers
 {
     public class MusicbrainzSerializer : ISerializer<Musicbrainz>
     {
-        public Musicbrainz Deserialize(JsonTextReader jsonTextReader)
+        public Musicbrainz Deserialize(JsonTextReader jsonTextReader, string requestUri)
         {
             JObject o = (JObject)JToken.ReadFrom(jsonTextReader);
             return new Musicbrainz(

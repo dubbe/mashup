@@ -4,7 +4,7 @@ using Mashup.Serializers;
 
 namespace Mashup.Factories
 {
-    public class SerializerFactory
+    public class SerializerFactory : ISerializerFactory
     {
 
         public ISerializer<T> Create<T>()

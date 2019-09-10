@@ -7,7 +7,7 @@ namespace Mashup.Serializers
 {
     public class WikipediaSerializer : ISerializer<Wikipedia>
     {
-        public Wikipedia Deserialize(JsonTextReader jsonTextReader)
+        public Wikipedia Deserialize(JsonTextReader jsonTextReader, string requestUri)
         {
             JObject o = (JObject)JToken.ReadFrom(jsonTextReader);
             return new Wikipedia(o.SelectToken("$.query..extract").ToString());

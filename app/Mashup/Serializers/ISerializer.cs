@@ -4,6 +4,6 @@ namespace Mashup.Serializers
 {
     public interface ISerializer<T>
     {
-        T Deserialize(JsonTextReader jsonTextReader);
+        T Deserialize(JsonTextReader jsonTextReader, string requestUri);
     }
 }

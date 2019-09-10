@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Net.Http;
+using Mashup.Factories;
+using Mashup.Repositories;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +22,13 @@ namespace Mashup
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
+            services.AddHttpClient();
+            services.AddSingleton(s => s.GetRequiredService<IHttpClientFactory>().CreateClient());
+            
+            services.AddScoped<IMashupRepository, MashupRepository>();
+            services.AddScoped<ISerializerFactory, SerializerFactory>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

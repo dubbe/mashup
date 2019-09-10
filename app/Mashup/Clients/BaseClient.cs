@@ -20,6 +20,9 @@ namespace Mashup.Clients
 
         protected async Task<T> SendAsync(HttpRequestMessage request) {
  
+            // TODO looking up proxy servers?
+            string requestUri = request.RequestUri.ToString();
+            
             request.Headers.Add("User-Agent", "mashup/0.0.1 (thomas.dahlberg@cygni.se)");
             if (request.Content == null)
             {
@@ -31,12 +34,11 @@ namespace Mashup.Clients
 
             result.EnsureSuccessStatusCode();
 
-                
             
             using (var streamReader = new StreamReader(await result.Content.ReadAsStreamAsync()))
             using (var jsonTextReader = new JsonTextReader(streamReader))
             {
-                return _deserilzer.Deserialize(jsonTextReader);
+                return _deserilzer.Deserialize(jsonTextReader, requestUri);
             }
         }
 

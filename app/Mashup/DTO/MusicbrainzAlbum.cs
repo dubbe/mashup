@@ -4,7 +4,7 @@ namespace Mashup.DTO
     {
         private readonly string _id;
 
-        public string ID
+        public string Id
         {
             get
             {

@@ -27,8 +27,10 @@ namespace Mashup.Repositories
         }
 
 
-        public MashupRepository(HttpClient httpClient, SerializerFactory serializerFactory) {
+        public MashupRepository(HttpClient httpClient, ISerializerFactory serializerFactory) {
              //_httpClient = httpClient;
+             //HttpClient httpClient = clientFactory.CreateClient();
+
              _musicbrainzClient = new MusicbrainzClient(httpClient, serializerFactory.Create<Musicbrainz>());
              _wikidataClient = new WikidataClient(httpClient, serializerFactory.Create<Wikidata>());
              _wikipediaClient = new WikipediaClient(httpClient, serializerFactory.Create<Wikipedia>());

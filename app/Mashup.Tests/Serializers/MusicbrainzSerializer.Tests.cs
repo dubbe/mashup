@@ -15,7 +15,7 @@ namespace Mashup.Tests.Serializers
             JsonTextReader reader = new JsonTextReader(new StringReader(jsonString));
 
             var musicbrainzDeserializer = new MusicbrainzSerializer();
-            Musicbrainz artist = musicbrainzDeserializer.Deserialize(reader);
+            Musicbrainz artist = musicbrainzDeserializer.Deserialize(reader, "http://musicbrainz.org/ws/2/artist/5b11f4ce-a62d-471e-81fc-a69a8278c7da?&fmt=json&inc=url-rels+release-groups");
 
             Assert.Equal("5b11f4ce-a62d-471e-81fc-a69a8278c7da", artist.MBID);
             Assert.Equal("Q11649", artist.WikidataId);
@@ -31,7 +31,7 @@ namespace Mashup.Tests.Serializers
             JsonTextReader reader = new JsonTextReader(new StringReader(jsonString));
 
             var musicbrainzDeserializer = new MusicbrainzSerializer();
-            Musicbrainz artist = musicbrainzDeserializer.Deserialize(reader);
+            Musicbrainz artist = musicbrainzDeserializer.Deserialize(reader, "http://musicbrainz.org/ws/2/artist/5b11f4ce-a62d-471e-81fc-a69a8278c7da?&fmt=json&inc=url-rels+release-groups");
 
             Assert.Equal("af45b4e2-eaf8-4a2f-a661-395911c1b256", artist.MBID);
             Assert.Equal("Q946885", artist.WikidataId);

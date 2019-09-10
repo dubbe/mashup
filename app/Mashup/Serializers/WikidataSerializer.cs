@@ -7,7 +7,7 @@ namespace Mashup.Serializers
 {
     public class WikidataSerializer : ISerializer<Wikidata>
     {
-        public Wikidata Deserialize(JsonTextReader jsonTextReader)
+        public Wikidata Deserialize(JsonTextReader jsonTextReader, string requestUri)
         {
             JObject o = (JObject)JToken.ReadFrom(jsonTextReader);
             return new Wikidata(o.SelectToken("$..enwiki.title").ToString());

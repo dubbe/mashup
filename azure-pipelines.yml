@@ -10,11 +10,19 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: DotNetCoreInstaller@0
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
   inputs:
-    version: '2.2.6' # replace this value with the version that you need for your project
-
-- script: dotnet restore
+    packageType: sdk
+    version: 2.2.203
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+    
+- task: NuGetCommand@2
+  displayName: Nuget restore
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   displayName: Build

@@ -8,17 +8,21 @@ namespace Mashup.Serializers
 {
     public class CoverartArchiveSerializer : ISerializer<CoverartArchive>
     {
-        public CoverartArchive Deserialize(JsonTextReader jsonTextReader)
+        public CoverartArchive Deserialize(JsonTextReader jsonTextReader, string requestUri)
         {
             try
             {
+                // Get id from uri
+                string id = requestUri.Split('/').Last();
+
                 JObject o = (JObject)JToken.ReadFrom(jsonTextReader);
 
-                return new CoverartArchive(o.SelectTokens("$.images[?(@.front)].image").FirstOrDefault().ToString());
+                return new CoverartArchive(id, o.SelectTokens("$.images[?(@.front)].image").FirstOrDefault().ToString());
             }
             catch (Exception)
             {
-                return new CoverartArchive("");
+                // TODO Exception
+                return new CoverartArchive("", "");
             }
         }
     }

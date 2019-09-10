@@ -19,7 +19,7 @@ namespace Mashup.Tests.Serializers
             JsonTextReader reader = new JsonTextReader(new StringReader(jsonString));
 
             WikidataSerializer wikidataSerializer = new WikidataSerializer();
-            Wikidata wikidata = wikidataSerializer.Deserialize(reader);
+            Wikidata wikidata = wikidataSerializer.Deserialize(reader, "https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q11649&format=json&props=sitelinks");
 
             Assert.Equal("Nirvana (band)", wikidata.Title);
  

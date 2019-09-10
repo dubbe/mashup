@@ -43,6 +43,7 @@ namespace Mashup.Tests.Clients
                 BaseAddress = new Uri("http://test.com/"),
             };
 
+
             SerializerFactory serializerFactory = new SerializerFactory();
 
             MashupRepository mashupRepository = new MashupRepository(httpClient, serializerFactory);
