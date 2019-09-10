@@ -39,3 +39,5 @@ msbuild.wrn
 # Test-files
 *.trx
 coverage.cobertura.xml
+coverage.info
+coverage.opencover.xml

@@ -1,3 +1,4 @@
+using System;
 using Mashup.DTO;
 using Mashup.Factories;
 using Mashup.Serializers;
@@ -23,6 +24,18 @@ namespace Mashup.Tests.Factories
         public void SerializerFactoryWithTypeWikidataShouldReturnWikipediaSerializer() {
             var type = new SerializerFactory().Create<Wikipedia>();
             Assert.IsType<WikipediaSerializer>(type);
+        }
+
+        [Fact]
+        public void SerializerFactoryWithTypeCoverartArchiveShouldReturnCoverartSerializer() {
+            var type = new SerializerFactory().Create<CoverartArchive>();
+            Assert.IsType<CoverartArchiveSerializer>(type);
+        }
+
+        [Fact]
+        public void SerializerFactoryWithFaultyCoverartArchiveShouldThrowException() {
+
+            Assert.Throws<InvalidOperationException>(() => new SerializerFactory().Create<object>());
         }
     }
 }
