@@ -37,7 +37,6 @@ namespace Mashup.Clients
             }
         }
         
-        
         private static HttpRequestMessage CreateRequest(string id) {
             return new HttpRequestMessage(HttpMethod.Get, string.Format("http://coverartarchive.org/release-group/{0}", id));
         }

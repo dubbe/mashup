@@ -49,3 +49,9 @@ steps:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
     reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
+
+- task: GithubRelease@0
+  displayName: 'Create github release'
+  inputs:
+    githubConnection: dubbe
+    repositoryName: dubbe/mashup

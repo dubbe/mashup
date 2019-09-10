@@ -48,8 +48,7 @@ namespace Mashup.Controllers
             }
             catch (Exception)
             {
-                // TODO better error handling
-                return new NotFoundResult();
+                return new BadRequestResult();
             }
         }
 

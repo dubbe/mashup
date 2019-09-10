@@ -26,7 +26,6 @@ namespace Mashup
             services.AddHttpClient();
             services.AddSingleton(s => s.GetRequiredService<IHttpClientFactory>().CreateClient());
             
-            //services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<ISerializerFactory, SerializerFactory>();
 
             services.AddScoped<IMusicbrainzClient, MusicbrainzClient>();
