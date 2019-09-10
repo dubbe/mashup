@@ -32,9 +32,10 @@ steps:
     projects: '**/Mashup.Tests/*.csproj'
     arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
 
-- task: reportgenerator@4
+- task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+  displayName: 'Generate report'
   inputs:
     reports: '$(Build.SourcesDirectory)/TestResults/Coverage/coverage.cobertura.xml'
     targetdir: '$(Build.SourcesDirectory)/coveragereport'
-    reporttypes: 'HtmlInline_AzurePipelines;Cobertura;'
+    reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
     assemblyfilters: '-xunit*'
