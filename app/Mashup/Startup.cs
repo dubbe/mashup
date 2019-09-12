@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using Mashup.Clients;
 using Mashup.Factories;
+using Mashup.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,7 @@ namespace Mashup
                 app.UseDeveloperExceptionPage();
             }
  
+            app.ConfigureExceptionHandler(_logger);
             app.UseMvc();
             
         }
