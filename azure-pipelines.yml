@@ -68,7 +68,6 @@ steps:
     repositoryName: '$(Build.Repository.Name)'
     action: 'create'
     target: '$(Build.SourceVersion)'
-    tagSource: 'gitTag'
     releaseNotesFilePath: 'ReleaseNotes.md'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
