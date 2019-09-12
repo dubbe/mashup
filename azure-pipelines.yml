@@ -49,13 +49,6 @@ steps:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
     reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
-
-- task: GithubRelease@0
-  displayName: 'Create github release'
-  inputs:
-    githubConnection: dubbe
-    repositoryName: dubbe/mashup
-
 - task: DotNetCoreCLI@2
   inputs:
     command: publish
@@ -68,3 +61,14 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'mashup'
+
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'dubbe'
+    repositoryName: '$(Build.Repository.Name)'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    releaseNotesFilePath: 'ReleaseNotes.md'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'

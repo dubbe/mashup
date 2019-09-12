@@ -29,27 +29,21 @@ namespace Mashup.Controllers
         [Route("{mbid}")]
         public async Task<ActionResult<ArtistViewModel>> GetAsync(string mbid)
         {
-            try
+
+            Musicbrainz musicbrainz = await _musicbrainz.GetAsync(mbid);
+
+            if (musicbrainz.MBID == null)
             {
-                // Get from musicbrainz first
-                Musicbrainz musicbrainz = await _musicbrainz.GetAsync(mbid);
-
-                if (musicbrainz.MBID == null)
-                {
-                    return new NotFoundResult();
-                }
-
-                var wikipediaTask = _wikipedia.GetAsync(musicbrainz);
-                var coverartTask = _coverartArchive.GetAsync(musicbrainz);
-
-                await Task.WhenAll(wikipediaTask, coverartTask);
-
-                return buildAlbumViewModel(musicbrainz, await wikipediaTask, await coverartTask);
+                return new NotFoundResult();
             }
-            catch (Exception)
-            {
-                return new BadRequestResult();
-            }
+
+            var wikipediaTask = _wikipedia.GetAsync(musicbrainz);
+            var coverartTask = _coverartArchive.GetAsync(musicbrainz);
+
+            await Task.WhenAll(wikipediaTask, coverartTask);
+
+            return buildAlbumViewModel(musicbrainz, await wikipediaTask, await coverartTask);
+
         }
 
         private ArtistViewModel buildAlbumViewModel(Musicbrainz musicbrainz, Wikipedia wikipedia, IList<CoverartArchive> coverarts) {
